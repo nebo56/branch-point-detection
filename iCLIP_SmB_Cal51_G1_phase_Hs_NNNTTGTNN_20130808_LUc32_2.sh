@@ -64,17 +64,32 @@ rm ${path}${introns}-same.bed
 rm ${path}${introns}-anti.bed
 
 # merge both strands together
-cat ${path}10.${data}-same-introns.bed ${path}10.${data}-anti-introns.bed > ${path}11.${data}-both_strands-introns.bed
-rm ${path}10.${data}-same-introns.bed
-rm ${path}10.${data}-anti-introns.bed
+#cat ${path}10.${data}-same-introns.bed ${path}10.${data}-anti-introns.bed > ${path}11.${data}-both_strands-introns.bed
+#rm ${path}10.${data}-same-introns.bed
+#rm ${path}10.${data}-anti-introns.bed
 
 # flank intron border for -1
-python ${path}flankBEDpositions.py ${path}${introns} ${path}${introns}-flanked.bed 2 -2
+#python ${path}flankBEDpositions.py ${path}${introns} ${path}${introns}-flanked.bed 2 -2
+
+# flank intron border on the same and anti strand
+python ${path}flankBEDpositions.py ${path}${introns} ${path}${introns}-flanked-same.bed 2 0
+python ${path}flankBEDpositions.py ${path}${introns} ${path}${introns}-flanked-anti.bed 0 -2
 
 # remove all reads that are 100% in flanked introns which means they are not next to the exon position
-bedtools intersect -v -f 1.00 -a ${path}11.${data}-both_strands-introns.bed -b ${path}${introns}-flanked.bed | uniq > ${path}12.${data}-selected_reads.bed
-rm ${path}${introns}-flanked.bed
-rm ${path}11.${data}-both_strands-introns.bed
+#bedtools intersect -v -f 1.00 -a ${path}11.${data}-both_strands-introns.bed -b ${path}${introns}-flanked.bed | uniq > ${path}12.${data}-selected_reads.bed
+#rm ${path}${introns}-flanked.bed
+#rm ${path}11.${data}-both_strands-introns.bed
+
+# remove all reads that are 100% in flanked introns which means they are not next to the exon position
+bedtools intersect -v -f 1.00 -a rm ${path}10.${data}-same-introns.bed -b ${path}${introns}-flanked-same.bed | uniq > ${path}11.${data}-selected_reads-same.bed
+bedtools intersect -v -f 1.00 -a rm ${path}10.${data}-anti-introns.bed -b ${path}${introns}-flanked-anti.bed | uniq > ${path}11.${data}-selected_reads-anti.bed
+rm ${path}10.${data}-same-introns.bed
+rm ${path}10.${data}-anti-introns.bed
+rm ${path}${introns}-flanked-same.bed
+rm ${path}${introns}-flanked-anti.bed
+
+#merge both strands together
+cat ${path}11.${data}-selected_reads-same.bed ${path}11.${data}-selected_reads-anti.bed > ${path}12.${data}-selected_reads.bed
 
 # set end positions of the read
 python ${path}set_branch_point_position.py ${path}12.${data}-selected_reads.bed ${path}${data}-branch_points.bed
