@@ -44,7 +44,7 @@ python ${path}trimSAM.py ${path}06.${data}.sam ${path}06.1.${data}-trimmed.sam
 # SAM to BED with collapsed read count by random barcodes
 python ${path}SAMtoCollapsedSAMandBED.py ${path}06.1.${data}-trimmed.sam ${path}05.${data}-Barcodes.fa ${path}07.${data}-collapsed.sam ${path}08.${data}.bed
 #python ${path}SAMtoCollapsedSAMandBED.py ${path}06.${data}.sam ${path}05.${data}-Barcodes.fa ${path}07.${data}-collapsed.sam ${path}08.${data}.bed
-rm ${path}06.${data}.sam
+rm ${path}06.${data}-trimmed.sam
 #rm ${path}07.${data}-collapsed.sam
 rm ${path}05.${data}-Barcodes.fa
 
