@@ -77,6 +77,8 @@ rm ${path}${introns}-flanked-anti.bed
 
 #merge both strands together
 cat ${path}11.${data}-selected_reads-same.bed ${path}11.${data}-selected_reads-anti.bed > ${path}12.${data}-selected_reads.bed
+rm ${path}11.${data}-selected_reads-same.bed
+rm ${path}11.${data}-selected_reads-anti.bed
 
 # set end positions of the read
 python ${path}set_branch_point_position.py ${path}12.${data}-selected_reads.bed ${path}${data}-branch_points.bed
