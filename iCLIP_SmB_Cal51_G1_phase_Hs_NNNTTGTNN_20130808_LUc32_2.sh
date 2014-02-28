@@ -38,6 +38,9 @@ rm ${path}03.${data}-filtered.fa
 bowtie2-align -x ~/bowtie-indexes/hg19/hg19 -f ${path}04.${data}-noBarcodes.fa -S ${path}06.${data}.sam
 rm ${path}04.${data}-noBarcodes.fa
 
+# count of genomic transitions on first nucleotide
+bash ${path}transition_ratio.sh ${path}06.${data}.sam ${path}${data}-genomic_transitions.log
+
 # trim SAM reads which starts with A mutation on genome
 python ${path}trimSAM.py ${path}06.${data}.sam ${path}06.1.${data}-trimmed.sam
 
