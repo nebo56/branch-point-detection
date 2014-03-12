@@ -35,14 +35,15 @@ bowtie2-align -x ~/bowtie-indexes/hg19/hg19 -f ${path}${data}-noBarcodes.fa -S $
 rm ${path}${data}-noBarcodes.fa
 
 # count of genomic transitions on first nucleotide
-bash ${path}transition_ratio.sh ${path}${data}.sam ${path}${data}-genomic_transitions.log
+python ${path}transition_ratio.py ${path}${data}.sam ${path}${data}-genomic_transitions.log
 
 # keep only reads that ends with AG
 python ${path}get_branch_point_candidates.py ${path}${data}.sam ${path}${data}-filtered.sam
 rm ${path}${data}.sam
 
 # trim SAM reads that starts with A mutation on genome
-python ${path}trimSAM.py ${path}${data}.sam ${path}${data}-trimmed.sam
+python ${path}trimSAM.py ${path}${data}-filtered.sam ${path}${data}-trimmed.sam
+rm ${path}${data}-filtered.sam
 
 # SAM to BED with collapsed read count by random barcodes
 python ${path}SAMtoCollapsedSAMandBED.py ${path}${data}-trimmed.sam ${path}${data}-Barcodes.fa ${path}${data}-collapsed.sam ${path}${data}.bed
