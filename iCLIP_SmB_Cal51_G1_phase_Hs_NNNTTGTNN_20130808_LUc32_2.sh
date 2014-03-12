@@ -26,13 +26,9 @@ fastx_clipper -Q 33 -a AGATCGGAAG -c -n -l 26 -i  ${path}${data}.fq -o  ${path}$
 fastq_to_fasta -Q 33 -n -i ${path}${data}-clipped.fq -o ${path}${data}-clipped.fa
 rm ${path}${data}-clipped.fq
 
-# keep only reads that ends with AG
-python ${path}get_branch_point_candidates.py ${path}${data}-clipped.fa ${path}${data}-filtered.fa
-rm ${path}${data}-clipped.fa
-
 # remove the barcode and reads that are shorter then 17 nts
-python ${path}swap_barcodes.py ${path}${data}-filtered.fa ${path}${data}-noBarcodes.fa ${path}${data}-Barcodes.fa
-rm ${path}${data}-filtered.fa
+python ${path}swap_barcodes.py ${path}${data}-clipped.fa ${path}${data}-noBarcodes.fa ${path}${data}-Barcodes.fa
+rm ${path}${data}-clipped.fa
 
 # map on genome
 bowtie2-align -x ~/bowtie-indexes/hg19/hg19 -f ${path}${data}-noBarcodes.fa -S ${path}${data}.sam
@@ -41,7 +37,11 @@ rm ${path}${data}-noBarcodes.fa
 # count of genomic transitions on first nucleotide
 bash ${path}transition_ratio.sh ${path}${data}.sam ${path}${data}-genomic_transitions.log
 
-# trim SAM reads which starts with A mutation on genome
+# keep only reads that ends with AG
+python ${path}get_branch_point_candidates.py ${path}${data}.sam ${path}${data}-filtered.sam
+rm ${path}${data}.sam
+
+# trim SAM reads that starts with A mutation on genome
 python ${path}trimSAM.py ${path}${data}.sam ${path}${data}-trimmed.sam
 
 # SAM to BED with collapsed read count by random barcodes

@@ -25,8 +25,8 @@ def sam_file_to_bed (fin_sam, fin_random_barcode, fout_sam, fout_bed):
     sam = fin.readline()
     reads = {}
     while sam[0] == '@':    #header of .SAM
-        sam = fin.readline()
         fout.write(sam)
+        sam = fin.readline()
     while sam:
         tokens = sam.rstrip('\n').rstrip('\r').split('\t')
         read_id = tokens[0]
