@@ -21,10 +21,10 @@ def filter_branch_point_seq (fin_sam, fout_sam):
         column = line.rstrip('\n').rstrip('\r').split('\t')
         if column[1] != '4':    #not error 
             seq = column[9]
-            if column[1] != '0':    #same strand
+            if column[1] == '0':    #same strand
                 if str(seq[-2:]).upper() == "AG":
                     fout.write(line)
-            if column[1] != '16':   #anti strand 
+            if column[1] == '16':   #anti strand 
                 if str(seq[0:2]).upper() == "CT":
                     fout.write(line)
         line = fin.readline()
