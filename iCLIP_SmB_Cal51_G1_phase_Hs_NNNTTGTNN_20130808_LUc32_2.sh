@@ -34,12 +34,15 @@ rm ${path}${data}-clipped.fa
 bowtie2-align -x ~/bowtie-indexes/hg19/hg19 -f ${path}${data}-noBarcodes.fa -S ${path}${data}.sam
 rm ${path}${data}-noBarcodes.fa
 
-# count of genomic transitions on first nucleotide
-python ${path}transition_ratio.py ${path}${data}.sam ${path}${data}-genomic_transitions.log
+# count of genomic transitions from all reads
+python ${path}transition_ratio.py ${path}${data}.sam ${path}${data}-genomic_transitions-all.log
 
 # keep only reads that ends with AG
 python ${path}get_branch_point_candidates.py ${path}${data}.sam ${path}${data}-filtered.sam
 rm ${path}${data}.sam
+
+# count of genomic transitions from selected reads that ends with AG
+python ${path}transition_ratio.py ${path}${data}-filtered.sam ${path}${data}-genomic_transitions-filteredAG.log
 
 # trim SAM reads that starts with A mutation on genome
 python ${path}trimSAM.py ${path}${data}-filtered.sam ${path}${data}-trimmed.sam
