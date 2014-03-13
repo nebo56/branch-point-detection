@@ -15,8 +15,8 @@ export PATH=/home/skgthab/programs/samtools-0.1.19:$PATH
 export PATH=/home/skgthab/programs/fastx_toolkit0.0.13:$PATH
 export PATH=/home/skgthab/programs/bedtools-2.17.0/bin:$PATH
 
-data=iCLIP_SmB_Cal51_G1_phase_Hs_NNNCAATNN_20130808_LUc32_3
-path=/home/skgthab/Jernej-Mapping/test/branch-point-detection-master/
+data=
+path=
 introns=hg19-introns.bed
 
 # clip the adapter and discard non-clipped sequences and discard the sequences that are shorter then 17 nt + 5 random barcode + 4 experimental barcode

@@ -26,7 +26,7 @@ def trim_sam (fin_sam, fout_sam):
             if col[1] != "4": #ignore unmapped reads
                 seq = col[9]
                 quality = col[10]
-                missmatches = col[17]
+                missmatches = col[-2]
                 tokens = missmatches.rsplit(':') #example: MD:Z:0A29
                 if col[1] == "0": #same strand
                     if tokens[-1][0:2] == "0A": 
@@ -34,8 +34,8 @@ def trim_sam (fin_sam, fout_sam):
                         seq = seq[1:]
                         length = str(seq.__len__()) + "M"
                         quality = quality[1:]
-                        XM = decrease_sam_column(col[13])
-                        NM = decrease_sam_column(col[16])
+                        XM = decrease_sam_column(col[-6])
+                        NM = decrease_sam_column(col[-3])
                         position = str(int(col[3]) + 1)
                         foutSam.write(col[0] + '\t' + col[1] + '\t' + col[2] + '\t' + position + '\t' + col[4] + '\t' + length + '\t' + col[6] + '\t' + col[7] + '\t' + col[8] + '\t' + seq + '\t' + quality + '\t' + col[11] + '\t' + col[12] + '\t' + XM + '\t' + col[14] + '\t' + col[15] + '\t' + NM + '\t' + missmatches + '\t' + col[18] + '\n')
                     else:
@@ -47,8 +47,8 @@ def trim_sam (fin_sam, fout_sam):
                         seq = seq[0:-1]
                         length = str(seq.__len__()) + "M"
                         quality = quality[0:-1]
-                        XM = decrease_sam_column(col[13])
-                        NM = decrease_sam_column(col[16])
+                        XM = decrease_sam_column(col[-6])
+                        NM = decrease_sam_column(col[-3])
                         position = str(int(col[3])) #position on the anti strand stays the same
                         foutSam.write(col[0] + '\t' + col[1] + '\t' + col[2] + '\t' + position + '\t' + col[4] + '\t' + length + '\t' + col[6] + '\t' + col[7] + '\t' + col[8] + '\t' + seq + '\t' + quality + '\t' + col[11] + '\t' + col[12] + '\t' + XM + '\t' + col[14] + '\t' + col[15] + '\t' + NM + '\t' + missmatches + '\t' + col[18] + '\n')
                     else:
